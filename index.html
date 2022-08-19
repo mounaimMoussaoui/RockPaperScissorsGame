@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <meta name="description" content="this is a challenge for test my skills css and html and javascript">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Fraunces:ital,opsz,wght@1,9..144,700&family=Josefin+Sans:wght@400;700&family=Kumbh+Sans:wght@400;700&family=League+Spartan:wght@500;700&family=Montserrat:wght@500;700&family=Outfit:wght@400;700&family=Red+Hat+Display:wght@500;700;900&family=Rubik:wght@400;500;700&family=Secular+One&display=swap" rel="stylesheet">
+    
+  <title>Frontend Mentor | Rock, Paper, Scissors</title>
+<!-- 
+  You Picked
+  The House Picked
+  -->
+  <style>
+    * {
+      margin: 0%;
+      padding: 0%;
+      box-sizing: border-box;
+    }
+    :root {
+      --Scissors-Gradient: hsl(39, 89%, 49%);
+      --To-Scissors-Gradient: hsl(40, 84%, 53%);
+      --Paper-Gradient: hsl(230, 89%, 62%);
+      --To-Paper-Gradient: hsl(230, 89%, 65%);
+      --Rock-Gradient: hsl(349, 71%, 52%);
+      --To-Rock-Gradient: hsl(349, 70%, 56%);
+      --Lizard-Gradient: hsl(261, 73%, 60%);
+      --To-Lizard-Gradient: hsl(261, 72%, 63%);
+      --Cyan: hsl(189, 59%, 53%);
+      --To-Cyan:  hsl(189, 58%, 57%);
+      --Dark-Text: hsl(229, 25%, 31%);
+      --Score-Text: hsl(229, 64%, 46%);
+      --Header-Outline: hsl(217, 16%, 45%);
+      --Radial-Gradient: hsl(214, 47%, 23%);
+      --To-Radial-Gradient: hsl(237, 49%, 15%);
+    }
+    body {
+      background: linear-gradient(to bottom, var(--Radial-Gradient), var(--To-Radial-Gradient));
+    }
+    .container {
+      margin: 20px auto;
+      width: 90%;
+      height: calc(100vh - 43px);
+      display: flex;
+      align-content: space-around;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+      font-family: 'Barlow Semi Condensed', sans-serif;
+    }
+    .roles {
+      position: absolute;
+      background-color: white;
+      padding: 0px 20px 20px;
+      top: 65%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -10;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .roles.show {
+      z-index: 10;
+      opacity: 1;
+      top: 50%;
+    }
+    .roles .head-roles {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0px;
+      width: 100%;
+    }
+    .roles .head-roles img {
+      cursor: pointer;
+    }
+    .rock-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    .rock-content .head {
+      margin-top: 20px;
+      border: 2px solid var(--Header-Outline);
+      border-radius: 5px;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 50%;
+    }
+    @media (max-width: 668px) {
+      .rock-content .head {
+        width: 90%;
+      }
+    }
+    .rock-content .head h1 {
+      color: white;
+      font-size: 30px;
+    }
+    @media (max-width: 668px) {
+      .rock-content .head  h1 {
+        font-size: 25px;
+      }
+    }
+    .rock-content .head .score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(to bottom, white 90%, var(--Header-Outline));
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+    .rock-content .head .score span:first-of-type {
+      text-transform: uppercase;
+      color: var(--Score-Text);
+    }
+    .rock-content .head .score span:last-of-type {
+      font-size: 25px;
+      font-weight: bold;
+      color: var(--Dark-Text);
+    }
+    .rock-content .section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      background-image: url(images/bg-triangle.svg);
+      background-repeat: no-repeat;
+      background-size: 350px 300px;
+      width: 350px;
+      margin-top: 50px;
+      transition: 00.5s;
+    }
+    .rock-content .section.hidden {
+      position: absolute;
+      opacity: 0;
+      z-index: -100;
+    }
+    .rock-content .section > div,
+    .rock-content .show-pick div:not(.result, .house-pick) {
+      background-color: aliceblue;
+      width: 150px;
+      border-radius: 50%;
+      padding: 30px;
+      border: 15px solid;
+      height: 150px;
+      position: relative;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .rock-content .section div.hidden {
+      opacity: 0;
+      z-index: -100;
+      height: 0px;
+    }
+    .rock-content .section div.paper {
+      top: -60px;
+      left: -75px;
+      border-color: var(--Paper-Gradient);
+    }
+    .rock-content .section div.Scissors {
+      top: -60px;
+      right: -75px;
+      border-color: var(--Scissors-Gradient);
+    }
+    .rock-content .section div.rock {
+      bottom: -50px;
+      border-color: var(--Rock-Gradient);
+    }
+    .rock-content button {
+      padding: 10px 30px;
+      text-transform: uppercase;
+      color: white;
+      border-radius: 5px;
+      border: 2px solid var(--Header-Outline);
+      background: transparent;
+      cursor: pointer;
+      margin-left: auto;
+    } 
+    .show-pick {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 700px;
+      height: 0px;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .show-pick.show {
+      height: fit-content;
+      opacity: 1;
+      justify-content: space-evenly;
+    }
+    .rock-content .show-pick div.paper {
+      border-color: var(--Paper-Gradient);
+    }
+    .rock-content .show-pick div.Scissors {
+      border-color: var(--Scissors-Gradient);
+    }
+    .rock-content .show-pick div.rock {
+      border-color: var(--Rock-Gradient);
+    }
+    .rock-content .show-pick div.winner {
+      box-shadow: 0px 0px 0px 0px var(--Header-Outline),
+                  0px 0px 50px 0px var(--Header-Outline),
+                  0px 0px 100px 0px var(--Header-Outline),
+                  0px 0px 150px 0px var(--Header-Outline),
+                  0px 0px 200px 0px var(--Header-Outline),
+                  0px 0px 250px 0px var(--Header-Outline),
+                  0px 0px 300px 0px var(--Header-Outline);
+    }
+    .show-pick .result {
+      width: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      opacity: 0;
+      transition: 00.3s;
+    }
+    .show-pick .result h1 {
+      color: white;
+      text-transform: uppercase;
+    }
+    .show-pick .result button {
+      margin: 20px 0;
+      width: 100%;
+      background-color: white;
+      color: var(--To-Radial-Gradient);
+      font-weight: bold;
+      border: none;
+    }
+    .show-pick .result.show {
+      opacity: 1;
+      width: calc((100% - 100px) / 3);
+    }
+    .show-pick .house-pick {
+      background-color: var(--To-Radial-Gradient);
+      width: 150px;
+      border-radius: 50%;
+      border: none;
+      height: 150px;
+      transition: 0.3s;
+    }
+    .show-pick .house-pick.hidden {
+      width: 0%;
+      height: 0%;
+      display: none;
+    }
+    .attribution { 
+      height: 43px;
+      padding: 15px 0px;
+      background-color: aliceblue;
+      font-size: 11px; text-align: center; 
+    }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="roles">
+      <div class="head-roles">
+        <h2>Rules</h2>
+        <img src="images/icon-close.svg" alt="close" class="close">
+      </div>
+      <div class="section-roles">
+        <img src="images/image-rules.svg" alt="">
+      </div>
+    </div>
+    <div class="rock-content">
+      <div class="head">
+        <h1>Rock, Paper, Scissors</h1>
+        <div class="score">
+          <span>Score</span>
+          <span>0</span>
+        </div>
+      </div>
+      <div class="section">
+        <div class="paper">
+          <img  src="images/icon-paper.svg" alt="img-game">
+        </div>
+        <div class="Scissors">
+        <img  src="images/icon-scissors.svg" alt="img-game">
+        </div>
+        <div class="rock">
+          <img src="images/icon-rock.svg" alt="img-game">
+        </div>
+      </div>
+      <div class="show-pick hidden">
+        <!-- <div class="my-pick">
+          <img src="" alt="">
+        </div> -->
+        <div class="result">
+          <h1></h1>
+          <button type="button">Play Again</button>
+        </div>
+        <div class="house-pick">
+          
+        </div>
+      </div>
+      <button type="button" class="rule-box">Rules</button>
+    </div>
+  </div>
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="https://www.frontendmentor.io/profile/mounaimMoussaoui">Moussaoui Abdennaim</a>.
+  </div>
+  <script src="javascript/main.js" defer></script>
+</body>
+</html>
