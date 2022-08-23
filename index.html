@@ -20,6 +20,7 @@
       padding: 0%;
       box-sizing: border-box;
     }
+
     :root {
       --Scissors-Gradient: hsl(39, 89%, 49%);
       --To-Scissors-Gradient: hsl(40, 84%, 53%);
@@ -37,9 +38,11 @@
       --Radial-Gradient: hsl(214, 47%, 23%);
       --To-Radial-Gradient: hsl(237, 49%, 15%);
     }
+
     body {
       background: linear-gradient(to bottom, var(--Radial-Gradient), var(--To-Radial-Gradient));
     }
+
     .container {
       margin: 20px auto;
       width: 90%;
@@ -51,6 +54,43 @@
       position: relative;
       font-family: 'Barlow Semi Condensed', sans-serif;
     }
+
+    .chose-type-game {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+      z-index: 100;
+      background-color: hsl(230deg 37% 18%);
+      transition: 0.3s;
+    }
+
+    .chose-type-game.hidden {
+      top: -100%;
+      opacity: 0;
+    }
+
+    .chose-type-game a {
+      padding: 10px 20px;
+      border: 1px solid var(--Header-Outline);
+      display: block;
+      color: white;
+      margin-bottom: 15px;
+      width: 25%;
+      margin: 0px auto 25px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: 0.3s;
+    }
+
+    .chose-type-game a:hover {
+      background-color: white;
+      color: var(--Dark-Text);
+    }
+
     .roles {
       position: absolute;
       background-color: white;
@@ -66,11 +106,13 @@
       opacity: 0;
       transition: 0.3s;
     }
+
     .roles.show {
       z-index: 10;
       opacity: 1;
       top: 50%;
     }
+
     .roles .head-roles {
       display: flex;
       justify-content: space-between;
@@ -78,9 +120,15 @@
       padding: 15px 0px;
       width: 100%;
     }
+
     .roles .head-roles img {
       cursor: pointer;
     }
+
+    .roles .section-roles > img.hidden {
+      display: none;
+    }
+
     .rock-content {
       display: flex;
       justify-content: space-between;
@@ -89,6 +137,7 @@
       width: 100%;
       height: 100%;
     }
+
     .rock-content .head {
       margin-top: 20px;
       border: 2px solid var(--Header-Outline);
@@ -99,20 +148,24 @@
       align-items: center;
       width: 50%;
     }
+
     @media (max-width: 668px) {
       .rock-content .head {
         width: 90%;
       }
     }
+
     .rock-content .head h1 {
       color: white;
       font-size: 30px;
     }
+
     @media (max-width: 668px) {
       .rock-content .head  h1 {
         font-size: 25px;
       }
     }
+
     .rock-content .head .score {
       display: flex;
       flex-direction: column;
@@ -121,15 +174,18 @@
       padding: 10px 15px;
       border-radius: 5px;
     }
+
     .rock-content .head .score span:first-of-type {
       text-transform: uppercase;
       color: var(--Score-Text);
     }
+
     .rock-content .head .score span:last-of-type {
       font-size: 25px;
       font-weight: bold;
       color: var(--Dark-Text);
     }
+
     .rock-content .section {
       display: flex;
       flex-wrap: wrap;
@@ -139,14 +195,20 @@
       background-repeat: no-repeat;
       background-size: 350px 300px;
       width: 350px;
-      margin-top: 50px;
+      margin-top: 100px;
       transition: 00.5s;
     }
+
+    .rock-content .section.bonus {
+      background-image: url(images/bg-pentagon.svg);
+    }
+
     .rock-content .section.hidden {
       position: absolute;
       opacity: 0;
       z-index: -100;
     }
+
     .rock-content .section > div,
     .rock-content .show-pick div:not(.result, .house-pick) {
       background-color: aliceblue;
@@ -159,25 +221,58 @@
       cursor: pointer;
       transition: 0.3s;
     }
+
     .rock-content .section div.hidden {
       opacity: 0;
       z-index: -100;
       height: 0px;
     }
+
     .rock-content .section div.paper {
       top: -60px;
       left: -75px;
       border-color: var(--Paper-Gradient);
     }
+
+    .rock-content .section div.paper.bonus {
+      top: -60px;
+      left: 60px;
+    }
+
     .rock-content .section div.Scissors {
       top: -60px;
       right: -75px;
       border-color: var(--Scissors-Gradient);
     }
+
+    .rock-content .section div.Scissors.bonus {
+      top: 50px;
+      right: -100px;
+    }
+
     .rock-content .section div.rock {
       bottom: -50px;
+      left: 75px;
       border-color: var(--Rock-Gradient);
     }
+
+    .rock-content .section div.rock.bonus {
+      bottom: -80px;
+      left: 180px;
+    }
+
+    .rock-content .section div.spock {
+      left: -250px;
+      top: -90px;
+      border-color: var(--Cyan);
+    }
+
+    .rock-content .section div.lizard {
+      bottom: 60px;
+      left: -100px;
+      border-color: var(--Lizard-Gradient);
+    }
+
     .rock-content button {
       padding: 10px 30px;
       text-transform: uppercase;
@@ -187,7 +282,9 @@
       background: transparent;
       cursor: pointer;
       margin-left: auto;
+      margin-top: -30px;
     } 
+
     .show-pick {
       display: flex;
       justify-content: space-around;
@@ -197,20 +294,33 @@
       opacity: 0;
       transition: 0.3s;
     }
+
     .show-pick.show {
       height: fit-content;
       opacity: 1;
       justify-content: space-evenly;
     }
+
     .rock-content .show-pick div.paper {
       border-color: var(--Paper-Gradient);
     }
+
     .rock-content .show-pick div.Scissors {
       border-color: var(--Scissors-Gradient);
     }
+
     .rock-content .show-pick div.rock {
       border-color: var(--Rock-Gradient);
     }
+
+    .rock-content .show-pick div.spock {
+      border-color: var(--Cyan);
+    }
+
+    .rock-content .show-pick div.lizard {
+      border-color: var(--Lizard-Gradient);
+    }
+
     .rock-content .show-pick div.winner {
       box-shadow: 0px 0px 0px 0px var(--Header-Outline),
                   0px 0px 50px 0px var(--Header-Outline),
@@ -220,6 +330,7 @@
                   0px 0px 250px 0px var(--Header-Outline),
                   0px 0px 300px 0px var(--Header-Outline);
     }
+
     .show-pick .result {
       width: 50px;
       display: flex;
@@ -229,10 +340,12 @@
       opacity: 0;
       transition: 00.3s;
     }
+
     .show-pick .result h1 {
       color: white;
       text-transform: uppercase;
     }
+
     .show-pick .result button {
       margin: 20px 0;
       width: 100%;
@@ -241,10 +354,12 @@
       font-weight: bold;
       border: none;
     }
+
     .show-pick .result.show {
       opacity: 1;
       width: calc((100% - 100px) / 3);
     }
+
     .show-pick .house-pick {
       background-color: var(--To-Radial-Gradient);
       width: 150px;
@@ -253,32 +368,41 @@
       height: 150px;
       transition: 0.3s;
     }
+
     .show-pick .house-pick.hidden {
       width: 0%;
       height: 0%;
       display: none;
     }
+
     .attribution { 
       height: 43px;
       padding: 15px 0px;
       background-color: aliceblue;
-      font-size: 11px; text-align: center; 
+      font-size: 11px; 
+      text-align: center; 
     }
+
     .attribution a { color: hsl(228, 45%, 44%); }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="chose-type-game">
+      <a href="#contentGame">Rock, Paper, Scissors</a>
+      <a href="#contentGame" class="bonus">Rock, Paper, Scissors, lizard, spock</a>
+    </div>
     <div class="roles">
       <div class="head-roles">
         <h2>Rules</h2>
         <img src="images/icon-close.svg" alt="close" class="close">
       </div>
       <div class="section-roles">
-        <img src="images/image-rules.svg" alt="">
+        <img src="images/image-rules.svg" alt="rules-img">
+        <img src="images/image-rules-bonus.svg" alt="rules-bonus" class="bonus hidden">
       </div>
     </div>
-    <div class="rock-content">
+    <div class="rock-content" id="contentGame">
       <div class="head">
         <h1>Rock, Paper, Scissors</h1>
         <div class="score">
@@ -295,6 +419,12 @@
         </div>
         <div class="rock">
           <img src="images/icon-rock.svg" alt="img-game">
+        </div>
+        <div class="spock hidden bonus">
+          <img src="images/icon-spock.svg" alt="img-game">
+        </div>
+        <div class="lizard hidden bonus">
+          <img src="images/icon-lizard.svg" alt="img-game">
         </div>
       </div>
       <div class="show-pick hidden">

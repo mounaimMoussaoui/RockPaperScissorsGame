@@ -1,3 +1,40 @@
+function addBonusToAllItems(list) {
+    document.querySelector(`.container .rock-content .section`).classList.add("bonus");
+    list.forEach((item) => {
+        item.classList.add("bonus");
+    });
+}
+
+function showAllChoices(notBonus) {
+    let listChoices = document.querySelectorAll(`.container .rock-content .section div${notBonus ? ":not(.bonus)" : ""}`);
+    listChoices.forEach((ele) => {
+        ele.classList.remove("hidden");
+    });
+    if(!notBonus) {
+        addBonusToAllItems(listChoices);
+    }
+}
+
+function ChangeRules() {
+    let imgRules = document.querySelectorAll(".container .roles .section-roles > img");
+    imgRules.forEach((el) => {
+        el.classList.contains("hidden") ? el.classList.remove("hidden") : el.classList.add("hidden");
+    });
+}
+
+let levelBtn = document.querySelectorAll(".container .chose-type-game a");
+levelBtn.forEach((lien) => {
+    lien.addEventListener("click", function(e) {
+        lien.parentElement.classList.add("hidden");
+        if(e.currentTarget.classList.contains("bonus")) {
+            showAllChoices(false);
+            ChangeRules();
+        } else {
+            showAllChoices(true);
+        }
+    });
+});
+
 let btn = document.querySelector(".container .rock-content button.rule-box");
 btn.addEventListener("click", function() {
     let rules = document.querySelector(".container .roles");
@@ -12,10 +49,7 @@ function playAgin(boxRes) {
     palyBtn.addEventListener("click", function () {
         let showPick = document.querySelector(".container .rock-content .show-pick");
         let rockContent = document.querySelector(".container .rock-content .section");
-        let listChoices = document.querySelectorAll(".container .rock-content .section div");
-        listChoices.forEach((ele) => {
-            ele.classList.remove("hidden");
-        });
+        rockContent.classList.contains("bonus") ? showAllChoices(false) : showAllChoices(true);
             showPick.classList.remove("show");
             rockContent.classList.remove("hidden");
             boxRes.classList.remove("show");
@@ -26,50 +60,65 @@ function playAgin(boxRes) {
     });
 }
 
+function completeWin(win = 0, boxRes, choices) {
+    let score = document.querySelector(".container .rock-content .head .score span:last-of-type");
+    boxRes.children[0].textContent = win == 0 ? "You win" : "You Lose";
+    choices[win].classList.add("winner");
+    if(win == 0) {
+        score.textContent = `${parseInt(score.textContent) + 1}`;
+    } else {
+        score.textContent = `${parseInt(score.textContent) > 0 ? parseInt(score.textContent) - 1 : parseInt(score.textContent)}`;
+    }
+}
+
 function funWinner() {
     let choices = document.querySelectorAll(".container .rock-content .show-pick div:not(.result, .house-pick)");
     let boxRes = document.querySelector(".container .rock-content .show-pick .result");
-    let score = document.querySelector(".container .rock-content .head .score span:last-of-type");
     boxRes.classList.add("show");
     if(choices[0].classList.contains(`${choices[1].classList[1]}`)) {
         boxRes.children[0].textContent = `Equals`;
     } else if(choices[0].classList.contains("paper")) {
-        if(choices[1].classList.contains("rock")) {
-            boxRes.children[0].textContent = "You win";
-            choices[0].classList.add("winner");
-            score.textContent = `${parseInt(score.textContent) + 1}`;
-        } else if(choices[1].classList.contains("Scissors")) {
-            boxRes.children[0].textContent = "You Lose";
-            choices[1].classList.add("winner");
-            score.textContent = `${parseInt(score.textContent) > 0 ? parseInt(score.textContent) - 1 : parseInt(score.textContent)}`;
+        if(choices[1].classList.contains("rock") || choices[1].classList.contains("spock")) {
+            completeWin(0, boxRes, choices);
+        } else if(choices[1].classList.contains("Scissors") || choices[1].classList.contains("lizard") ) {
+            completeWin(1, boxRes, choices);
         }
     } else if(choices[0].classList.contains("rock")) {
-        if(choices[1].classList.contains("Scissors")) {
-            boxRes.children[0].textContent = "You win";
-            choices[0].classList.add("winner");
-            score.textContent = `${parseInt(score.textContent) + 1}`;
-        } else if(choices[1].classList.contains("paper")) {
-            boxRes.children[0].textContent = "You Lose";
-            choices[1].classList.add("winner");
-            score.textContent = `${parseInt(score.textContent) > 0 ? parseInt(score.textContent) - 1 : parseInt(score.textContent)}`;
+        if(choices[1].classList.contains("Scissors") || choices[1].classList.contains("lizard")) {
+            completeWin(0, boxRes, choices);
+        } else if(choices[1].classList.contains("paper") || choices[1].classList.contains("spock")) {
+            completeWin(1, boxRes, choices);
         }
     } else if(choices[0].classList.contains("Scissors")) {
-        if(choices[1].classList.contains("paper")) {
-            boxRes.children[0].textContent = "You win";
-            choices[0].classList.add("winner");
-            score.textContent = `${parseInt(score.textContent) + 1}`;
-        } else if(choices[1].classList.contains("rock")) {
-            boxRes.children[0].textContent = "You Lose";
-            choices[1].classList.add("winner");
-            score.textContent = `${parseInt(score.textContent) > 0 ? parseInt(score.textContent) - 1 : parseInt(score.textContent)}`;
+        if(choices[1].classList.contains("paper") || choices[1].classList.contains("lizard")) {
+            completeWin(0, boxRes, choices);
+        } else if(choices[1].classList.contains("rock") || choices[1].classList.contains("spock")) {
+            completeWin(1, boxRes, choices);
         }
-    }
+    } else if(choices[0].classList.contains("spock")) {
+        if(choices[1].classList.contains("Scissors") || choices[1].classList.contains("rock")) {
+            completeWin(0, boxRes, choices);
+        } else if(choices[1].classList.contains("paper") || choices[1].classList.contains("lizard")) {
+            completeWin(1, boxRes, choices);
+        }
+    } else if(choices[0].classList.contains("lizard")) {
+        if(choices[1].classList.contains("paper") || choices[1].classList.contains("spock")) {
+            completeWin(0, boxRes, choices);
+        } else if(choices[1].classList.contains("Scissors") || choices[1].classList.contains("rock")) {
+            completeWin(1, boxRes, choices);
+        }
+    } 
     playAgin(boxRes);
 }
 
 function addHousePicked(picked) {
     let arr = ["images/icon-paper.svg", "images/icon-rock.svg", "images/icon-scissors.svg"];
     let arrClass = ["paper", "rock", "Scissors"];
+    let rockContent = document.querySelector(".container .rock-content .section");
+    if(rockContent.classList.contains("bonus")) {
+        arr.push("images/icon-lizard.svg","images/icon-spock.svg");
+        arrClass.push("lizard","spock");
+    }
     let indexRand = Math.trunc(Math.random() * arr.length);
     let clonePick = picked.cloneNode(true);
     clonePick.classList.forEach((el) => {
@@ -81,8 +130,7 @@ function addHousePicked(picked) {
     if(!housePlace.classList.contains("hidden")) {
         housePlace.classList.add("hidden");
     }
-    let boxRes = document.querySelector(".container .rock-content .show-pick .house-pick");
-    boxRes.after(clonePick);
+    housePlace.after(clonePick);
     funWinner();
 }
 
@@ -92,7 +140,7 @@ function addImgPicked(divPick) {
     sect.classList.add("show");
     sect.prepend(myPicked);
     setTimeout(() => {
-        addHousePicked(divPick)
+        addHousePicked(divPick);
     }, 800);
 }
 
