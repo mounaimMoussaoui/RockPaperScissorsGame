@@ -10,10 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Fraunces:ital,opsz,wght@1,9..144,700&family=Josefin+Sans:wght@400;700&family=Kumbh+Sans:wght@400;700&family=League+Spartan:wght@500;700&family=Montserrat:wght@500;700&family=Outfit:wght@400;700&family=Red+Hat+Display:wght@500;700;900&family=Rubik:wght@400;500;700&family=Secular+One&display=swap" rel="stylesheet">
     
   <title>Frontend Mentor | Rock, Paper, Scissors</title>
-<!-- 
-  You Picked
-  The House Picked
-  -->
   <style>
     * {
       margin: 0%;
@@ -46,7 +42,7 @@
     .container {
       margin: 20px auto;
       width: 90%;
-      height: calc(100vh - 43px);
+      height: calc(100vh + 43px);
       display: flex;
       align-content: space-around;
       align-items: center;
@@ -84,6 +80,12 @@
       text-decoration: none;
       text-transform: uppercase;
       transition: 0.3s;
+    }
+    
+    @media screen and (max-width: 992px){
+      .chose-type-game a { 
+        width: 50%;
+      }
     }
 
     .chose-type-game a:hover {
@@ -210,7 +212,7 @@
     }
 
     .rock-content .section > div,
-    .rock-content .show-pick div:not(.result, .house-pick) {
+    .rock-content .show-pick div:not(.result, .house-pick, .head-pick) {
       background-color: aliceblue;
       width: 150px;
       border-radius: 50%;
@@ -220,6 +222,23 @@
       position: relative;
       cursor: pointer;
       transition: 0.3s;
+    }
+
+    @media (max-width: 668px){
+      .rock-content .section > div {
+        padding: 20px;
+        width: 135px;
+        height: 135px;
+      }
+    }
+
+    .head-pick {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: white;
     }
 
     .rock-content .section div.hidden {
@@ -245,9 +264,26 @@
       border-color: var(--Scissors-Gradient);
     }
 
+    @media (max-width: 668px) { 
+      .rock-content .section div.paper {
+        top: -50px;
+        left: -50px;
+      }
+      .rock-content .section div.Scissors {
+          top: -50px;
+          right: -50px;
+      }
+    }
+
     .rock-content .section div.Scissors.bonus {
       top: 50px;
       right: -100px;
+    }
+
+    @media (max-width: 668px){
+      .rock-content .section div.Scissors.bonus {
+          right: -60px;
+      }
     }
 
     .rock-content .section div.rock {
@@ -255,10 +291,24 @@
       left: 75px;
       border-color: var(--Rock-Gradient);
     }
+    
+    @media (max-width: 668px){
+      .rock-content .section div.rock {
+        bottom: -40px;
+        left: 65px;
+      }
+    }
 
     .rock-content .section div.rock.bonus {
       bottom: -80px;
       left: 180px;
+    }
+
+    @media (max-width: 668px){
+      .rock-content .section div.rock.bonus {
+        bottom: -70px;
+        left: 160px;
+    }
     }
 
     .rock-content .section div.spock {
@@ -267,10 +317,23 @@
       border-color: var(--Cyan);
     }
 
+    @media (max-width: 668px){
+      .rock-content .section div.spock {
+        top: -80px;
+        left: -200px;
+      }
+    }
+
     .rock-content .section div.lizard {
       bottom: 60px;
       left: -100px;
       border-color: var(--Lizard-Gradient);
+    }
+
+    @media (max-width: 668px){
+        .rock-content .section div.lizard {
+          left: -80px;
+      }
     }
 
     .rock-content button {
@@ -293,6 +356,18 @@
       height: 0px;
       opacity: 0;
       transition: 0.3s;
+    }
+
+    @media (max-width: 668px) {
+      .show-pick {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .show-pick {
+        width: 100%;
+      }
     }
 
     .show-pick.show {
@@ -332,7 +407,6 @@
     }
 
     .show-pick .result {
-      width: 50px;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
@@ -358,6 +432,12 @@
     .show-pick .result.show {
       opacity: 1;
       width: calc((100% - 100px) / 3);
+    }
+    @media screen and (max-width: 988px) {
+      .show-pick .result.show {
+        margin: 25px 0px;
+        width: 80%;
+      }
     }
 
     .show-pick .house-pick {
